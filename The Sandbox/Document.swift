@@ -10,8 +10,9 @@ import UIKit
 
 struct Document {
     
-    var image: String
-    var name: String
-    var description: String
+    var image: UIImage
+    var creationDate: String
+    var size: String
+    var filePath: String
     
 }

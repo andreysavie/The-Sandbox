@@ -20,7 +20,7 @@ class DocumentsTableViewCell: UITableViewCell {
         return image
     }()
     
-    private lazy var imageName: UILabel = {
+    private lazy var fileCreationDate: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14)
@@ -29,7 +29,7 @@ class DocumentsTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var imageDescription: UILabel = {
+    private lazy var fileSize: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12)
@@ -42,8 +42,8 @@ class DocumentsTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(image)
-        contentView.addSubview(imageName)
-        contentView.addSubview(imageDescription)
+        contentView.addSubview(fileCreationDate)
+        contentView.addSubview(fileSize)
         
         setupLayout()
 
@@ -54,9 +54,9 @@ class DocumentsTableViewCell: UITableViewCell {
     }
     
     public func configureOfCell(document: Document) {
-        self.image.image = UIImage(named: document.image)
-        self.imageName.text = document.name
-        self.imageDescription.text = document.description
+        self.image.image = document.image
+        self.fileCreationDate.text = document.creationDate
+        self.fileSize.text = document.size
     }
     
     
@@ -70,15 +70,13 @@ class DocumentsTableViewCell: UITableViewCell {
             image.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.25),
             image.heightAnchor.constraint(equalTo: image.widthAnchor),
             
-            imageName.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
-            imageName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            imageName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            fileCreationDate.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
+            fileCreationDate.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            fileCreationDate.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
-            imageDescription.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
-            imageDescription.topAnchor.constraint(equalTo: imageName.bottomAnchor, constant: 8),
-            imageDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-
-        
+            fileSize.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
+            fileSize.topAnchor.constraint(equalTo: fileCreationDate.bottomAnchor, constant: 8),
+            fileSize.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
     }
     

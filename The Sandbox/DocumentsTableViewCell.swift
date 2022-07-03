@@ -11,12 +11,12 @@ class DocumentsTableViewCell: UITableViewCell {
     
     static let identifire = "PostTableViewCell"
 
-
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.backgroundColor = .black
-        image.contentMode = .scaleAspectFit
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFill
         return image
     }()
     
@@ -55,10 +55,9 @@ class DocumentsTableViewCell: UITableViewCell {
     
     public func configureOfCell(document: Document) {
         self.image.image = document.image
-        self.fileCreationDate.text = document.creationDate
-        self.fileSize.text = document.size
+        self.fileCreationDate.text = document.creationDate 
+        self.fileSize.text = "file size: \(document.size) bytes" 
     }
-    
     
     private func setupLayout() {
         

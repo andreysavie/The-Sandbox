@@ -7,10 +7,11 @@
 
 import UIKit
 
-class DocumentsViewController: UIViewController {
+class DocumentsViewController: UIViewController, UINavigationControllerDelegate {
     
     var files = [Document]()
-
+    
+    // MARK: PROPERTIES =================================================
     
     private lazy var documentsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -19,10 +20,31 @@ class DocumentsViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var barButtonItem: UIBarButtonItem = {
+        let button = UIBarButtonItem (
+            title: "Add photo",
+            style: .plain,
+            target: self,
+            action: #selector(barButtonAction)
+        )
+        return button
+    }()
+    
+    private lazy var imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = false
+        picker.mediaTypes = ["public.image"]
+        picker.sourceType = .photoLibrary
+        return picker
+    }()
+  
+    // MARK: INITS =====================================================
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        self.navigationItem.rightBarButtonItem  = barButtonItem
         self.view.addSubview(documentsTableView)
         
         documentsTableView.register(
@@ -32,30 +54,34 @@ class DocumentsViewController: UIViewController {
         
         documentsTableView.dataSource = self
         documentsTableView.delegate = self
+        imagePicker.delegate = self
 
         setupLayout()
-        addFilesToLibrary(Model.shared.images)
-        getLabraryData()
-  
+        getLibraryData()
     }
     
-    func getLabraryData() {
+    // MARK: METHODS =====================================================
+    
+    func getLibraryData() {
         
         self.files.removeAll()
         
         let manager = FileManager.default
+        
         guard
             let docUrl = try? manager.url(
                 for: .documentDirectory,
                 in: .userDomainMask,
                 appropriateFor: nil,
-                create: false
-            ),
-            let contents = try? FileManager.default.contentsOfDirectory(at: docUrl,
-                                                                        includingPropertiesForKeys: nil,
-                                                                        options: [.skipsHiddenFiles])
+                create: false),
+            
+            let contents = try? FileManager.default.contentsOfDirectory(
+                at: docUrl,
+                includingPropertiesForKeys: nil,
+                options: [.skipsHiddenFiles])
+ 
         else { return }
-
+        
         var attributes = [FileAttributeKey : Any]()
 
         for file in contents {
@@ -63,10 +89,10 @@ class DocumentsViewController: UIViewController {
             
             do {
                 attributes = try FileManager.default.attributesOfItem(atPath: filePath)
-                
             } catch let error {
                 print (error)
             }
+            
             let creationDate = attributes[.creationDate]
             let fileSize = attributes[.size]
             let image = UIImage(contentsOfFile: filePath)
@@ -75,30 +101,28 @@ class DocumentsViewController: UIViewController {
                 image: image ?? UIImage(),
                 creationDate: String(describing: creationDate!),
                 size: String(describing: fileSize!),
-                filePath: filePath)
-            )
-
+                filePath: filePath))
         }
     }
     
-    private func addFilesToLibrary(_ array: [String]) {
+    private func addPhotoToLibrary(_ photo: UIImage) {
         let manager = FileManager.default
         
         guard let docUrl = try? manager.url(
-                for: .documentDirectory,
-                in: .userDomainMask,
-                appropriateFor: nil,
-                create: false
-            ) else { return }
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: false
+        ) else { return }
         
-        for fileItem in array {
-            let imagePath = docUrl.appendingPathComponent(fileItem)
-            let image = UIImage(named: fileItem) ?? UIImage()
-            let data = image.jpegData(compressionQuality: 1.0)
-           
-            manager.createFile(atPath: imagePath.path, contents: data)
-        }
+        let fileItem = getHash(of: 10)
+        let imagePath = docUrl.appendingPathComponent("\(fileItem).jpg")
+        let data = photo.jpegData(compressionQuality: 1.0)
         
+        manager.createFile(atPath: imagePath.path, contents: data)
+        
+        getLibraryData()
+        documentsTableView.reloadData()
     }
     
     private func removeFileFromLibrary (_ filePath: String) {
@@ -109,6 +133,7 @@ class DocumentsViewController: UIViewController {
         }
     }
 
+    // MARK: LAYOUT =====================================================
 
     private func setupLayout() {
         NSLayoutConstraint.activate([
@@ -118,7 +143,18 @@ class DocumentsViewController: UIViewController {
             documentsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    // MARK: OBJC - METHODS =====================================================
+
+    @objc
+    private func barButtonAction() {
+        imagePicker.sourceType = .photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
+    }
 }
+
+// MARK: EXTENSIONS =====================================================
+
 
 extension DocumentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -146,10 +182,43 @@ extension DocumentsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             removeFileFromLibrary(files[indexPath.row].filePath)
-            getLabraryData()
+            getLibraryData()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
         }
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "My documents"
+    }
+    
 }
+
+extension DocumentsViewController: UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let image = info[.originalImage] as? UIImage else { return }
+        self.addPhotoToLibrary(image)
+        self.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension UIViewController {
+    func getHash(of length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var string = ""
+        for _ in 0 ..< length {
+            string.append(letters.randomElement()!)
+        }
+        return string
+    }
+}
+
+
+
+

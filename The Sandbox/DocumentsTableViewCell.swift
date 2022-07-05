@@ -10,6 +10,8 @@ import UIKit
 class DocumentsTableViewCell: UITableViewCell {
     
     static let identifire = "PostTableViewCell"
+    
+    // MARK: PROPERTIES =================================================
 
     private lazy var image: UIImageView = {
         let image = UIImageView()
@@ -38,6 +40,8 @@ class DocumentsTableViewCell: UITableViewCell {
         return label
     }()
 
+    // MARK: INITS =====================================================
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -55,10 +59,12 @@ class DocumentsTableViewCell: UITableViewCell {
     
     public func configureOfCell(document: Document) {
         self.image.image = document.image
-        self.fileCreationDate.text = document.creationDate 
+        self.fileCreationDate.text = Date.getFormattedDate(string: document.creationDate)
         self.fileSize.text = "file size: \(document.size) bytes" 
     }
     
+    // MARK: LAYOUT =====================================================
+
     private func setupLayout() {
         
         NSLayoutConstraint.activate([
@@ -81,5 +87,21 @@ class DocumentsTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+    }
+    
+}
+
+extension Date {
+    static func getFormattedDate(string: String) -> String {
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = "E, d MMM yyyy HH:mm:ss"
+        dateFormatterPrint.timeZone = TimeZone.current
+
+        let date: Date? = dateFormatterGet.date(from: string)
+        print("Date",dateFormatterPrint.string(from: date!))
+        return dateFormatterPrint.string(from: date!);
     }
 }

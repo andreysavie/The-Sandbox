@@ -82,6 +82,8 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
  
         else { return }
         
+        print(docUrl)
+        
         var attributes = [FileAttributeKey : Any]()
 
         for file in contents {
@@ -115,7 +117,7 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
             create: false
         ) else { return }
         
-        let fileItem = getHash(of: 10)
+        let fileItem = UUID().uuidString
         let imagePath = docUrl.appendingPathComponent("\(fileItem).jpg")
         let data = photo.jpegData(compressionQuality: 1.0)
         
@@ -208,16 +210,6 @@ extension DocumentsViewController: UIImagePickerControllerDelegate {
     }
 }
 
-extension UIViewController {
-    func getHash(of length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        var string = ""
-        for _ in 0 ..< length {
-            string.append(letters.randomElement()!)
-        }
-        return string
-    }
-}
 
 
 

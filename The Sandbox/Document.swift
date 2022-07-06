@@ -12,7 +12,7 @@ struct Document {
     
     var image: UIImage
     var creationDate: String
-    var size: String
+    var name: String
     var filePath: String
     
 }

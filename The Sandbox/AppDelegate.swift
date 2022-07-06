@@ -24,13 +24,13 @@ var window: UIWindow?
 
         
         let tabBarController = UITabBarController()
+        tabBarController.view.backgroundColor = .systemGray5
         tabBarController.tabBar.backgroundColor = .white
         tabBarController.tabBar.tintColor = .lightGray
 
                 
         let appearanceNavigationBar = UINavigationBarAppearance()
         appearanceNavigationBar.configureWithOpaqueBackground()
-        appearanceNavigationBar.backgroundColor = .lightGray
         
         let appearanceTabBar = tabBarController.tabBar.standardAppearance
         appearanceTabBar.stackedLayoutAppearance.selected.iconColor = .brown
@@ -42,17 +42,14 @@ var window: UIWindow?
             selectedImage: UIImage(systemName: "doc.on.doc.fill"))
 
         documentsNavigationController.navigationBar.topItem?.title = "My documents"
-//        documentsNavigationController.navigationBar.barTintColor = .lightGray
         documentsNavigationController.navigationBar.standardAppearance = appearanceNavigationBar
-//        documentsNavigationController.navigationBar.scrollEdgeAppearance = documentsNavigationController.navigationBar.standardAppearance
-        documentsNavigationController.navigationBar.topItem?.rightBarButtonItem?.tintColor = .brown
+        documentsNavigationController.navigationBar.scrollEdgeAppearance = documentsNavigationController.navigationBar.standardAppearance
         
         settingsNavigationController.tabBarItem = UITabBarItem(
             title: "Settings",
             image: UIImage(systemName: "gearshape.2"),
             selectedImage: UIImage(systemName:"gearshape.2.fill"))
         settingsNavigationController.navigationBar.topItem?.title = "Settings"
-//        settingsNavigationController.navigationBar.barTintColor = Colors.navigationBarColor
         settingsNavigationController.navigationBar.standardAppearance = appearanceNavigationBar
         settingsNavigationController.navigationBar.scrollEdgeAppearance = settingsNavigationController.navigationBar.standardAppearance
 

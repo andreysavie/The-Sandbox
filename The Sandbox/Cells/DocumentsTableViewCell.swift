@@ -22,7 +22,7 @@ class DocumentsTableViewCell: UITableViewCell {
         return image
     }()
     
-    private lazy var fileCreationDate: UILabel = {
+    private lazy var fileName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14)
@@ -31,7 +31,7 @@ class DocumentsTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var fileSize: UILabel = {
+    private lazy var fileCreationDate: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12)
@@ -40,14 +40,15 @@ class DocumentsTableViewCell: UITableViewCell {
         return label
     }()
 
+
     // MARK: INITS =====================================================
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(image)
+        contentView.addSubview(fileName)
         contentView.addSubview(fileCreationDate)
-        contentView.addSubview(fileSize)
         
         setupLayout()
 
@@ -59,8 +60,8 @@ class DocumentsTableViewCell: UITableViewCell {
     
     public func configureOfCell(document: Document) {
         self.image.image = document.image
+        self.fileName.text = document.name
         self.fileCreationDate.text = Date.getFormattedDate(string: document.creationDate)
-        self.fileSize.text = "file size: \(document.size) bytes" 
     }
     
     // MARK: LAYOUT =====================================================
@@ -74,14 +75,15 @@ class DocumentsTableViewCell: UITableViewCell {
             image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             image.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.25),
             image.heightAnchor.constraint(equalTo: image.widthAnchor),
-            
+                        
+            fileName.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
+            fileName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            fileName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+
             fileCreationDate.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
-            fileCreationDate.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            fileCreationDate.topAnchor.constraint(equalTo: fileName.bottomAnchor, constant: 8),
             fileCreationDate.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
-            fileSize.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
-            fileSize.topAnchor.constraint(equalTo: fileCreationDate.bottomAnchor, constant: 8),
-            fileSize.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
     }
     
@@ -101,7 +103,6 @@ extension Date {
         dateFormatterPrint.timeZone = TimeZone.current
 
         let date: Date? = dateFormatterGet.date(from: string)
-        print("Date",dateFormatterPrint.string(from: date!))
         return dateFormatterPrint.string(from: date!);
     }
 }

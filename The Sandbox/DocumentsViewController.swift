@@ -9,9 +9,10 @@ import UIKit
 
 class DocumentsViewController: UIViewController, UINavigationControllerDelegate {
     
-    var files = [Document]()
     
     // MARK: PROPERTIES =================================================
+    
+    private var isAlphSorted = true
     
     private lazy var documentsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -27,6 +28,7 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
             target: self,
             action: #selector(barButtonAction)
         )
+        button.tintColor = .brown
         return button
     }()
     
@@ -42,7 +44,6 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
         self.navigationItem.rightBarButtonItem  = barButtonItem
         self.view.addSubview(documentsTableView)
@@ -57,7 +58,6 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
         imagePicker.delegate = self
 
         setupLayout()
-        getLibraryData()
         
         //TODO: убрать!
         let authVC = AuthViewController()
@@ -65,11 +65,15 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
         present(authVC, animated: true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getLibraryData()
+    }
+    
     // MARK: METHODS =====================================================
     
     func getLibraryData() {
         
-        self.files.removeAll()
+        Model.shared.files.removeAll()
         
         let manager = FileManager.default
         
@@ -86,9 +90,7 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
                 options: [.skipsHiddenFiles])
  
         else { return }
-        
-        print(docUrl)
-        
+                
         var attributes = [FileAttributeKey : Any]()
 
         for file in contents {
@@ -100,16 +102,28 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
                 print (error)
             }
             
+            let fileName = (filePath as NSString).lastPathComponent
             let creationDate = attributes[.creationDate]
-            let fileSize = attributes[.size]
             let image = UIImage(contentsOfFile: filePath)
             
-            files.append(Document(
+            Model.shared.files.append(Document(
                 image: image ?? UIImage(),
                 creationDate: String(describing: creationDate!),
-                size: String(describing: fileSize!),
-                filePath: filePath))
+                name: fileName,
+                filePath: filePath)
+            )
+            
+            if UserDefaults.standard.bool(forKey: "switcher") {
+                Model.shared.files.sort(by: { $1.name > $0.name } )
+            } else {
+                Model.shared.files.sort(by: { $0.name > $1.name } )
+            }
+            
         }
+        documentsTableView.reloadData()
+
+
+        
     }
     
     private func addPhotoToLibrary(_ photo: UIImage) {
@@ -165,12 +179,12 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
 
 extension DocumentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return files.count
+        return Model.shared.files.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DocumentsTableViewCell.identifire, for: indexPath) as? DocumentsTableViewCell else { return UITableViewCell() }
-        cell.configureOfCell(document: files[indexPath.row])
+        cell.configureOfCell(document: Model.shared.files[indexPath.row])
         return cell
     }
     
@@ -188,7 +202,7 @@ extension DocumentsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            removeFileFromLibrary(files[indexPath.row].filePath)
+            removeFileFromLibrary(Model.shared.files[indexPath.row].filePath)
             getLibraryData()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()

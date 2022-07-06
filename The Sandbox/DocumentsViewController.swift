@@ -58,6 +58,11 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
 
         setupLayout()
         getLibraryData()
+        
+        //TODO: убрать!
+        let authVC = AuthViewController()
+        authVC.modalPresentationStyle = .fullScreen
+        present(authVC, animated: true)
     }
     
     // MARK: METHODS =====================================================
@@ -210,6 +215,24 @@ extension DocumentsViewController: UIImagePickerControllerDelegate {
     }
 }
 
+extension UIViewController {
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension UIViewController {
+    
+    func toAutolayout(_ views: UIView ...) {
+        views.forEach( { $0.translatesAutoresizingMaskIntoConstraints = false } )
+    }
+}
 
 
 

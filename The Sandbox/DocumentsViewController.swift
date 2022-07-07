@@ -11,8 +11,8 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
     
     
     // MARK: PROPERTIES =================================================
-    
-    private var isAlphSorted = true
+        
+    private var files = [Document]()
     
     private lazy var documentsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -58,11 +58,6 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
         imagePicker.delegate = self
 
         setupLayout()
-        
-        //TODO: убрать!
-        let authVC = AuthViewController()
-        authVC.modalPresentationStyle = .fullScreen
-        present(authVC, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,8 +67,8 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
     // MARK: METHODS =====================================================
     
     func getLibraryData() {
-        
-        Model.shared.files.removeAll()
+
+        files.removeAll()
         
         let manager = FileManager.default
         
@@ -106,23 +101,24 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
             let creationDate = attributes[.creationDate]
             let image = UIImage(contentsOfFile: filePath)
             
-            Model.shared.files.append(Document(
+            let data = Document(
                 image: image ?? UIImage(),
                 creationDate: String(describing: creationDate!),
                 name: fileName,
-                filePath: filePath)
+                filePath: filePath
             )
             
-            if UserDefaults.standard.bool(forKey: "switcher") {
-                Model.shared.files.sort(by: { $1.name > $0.name } )
-            } else {
-                Model.shared.files.sort(by: { $0.name > $1.name } )
-            }
+            files.append(data)
             
+
         }
+        if UserDefaults.standard.bool(forKey: "switcher") {
+            files.sort(by: { $1.name > $0.name } )
+        } else {
+            files.sort(by: { $0.name > $1.name } )
+        }
+        
         documentsTableView.reloadData()
-
-
         
     }
     
@@ -143,7 +139,6 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
         manager.createFile(atPath: imagePath.path, contents: data)
         
         getLibraryData()
-        documentsTableView.reloadData()
     }
     
     private func removeFileFromLibrary (_ filePath: String) {
@@ -179,12 +174,14 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
 
 extension DocumentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Model.shared.files.count
+        return files.count
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DocumentsTableViewCell.identifire, for: indexPath) as? DocumentsTableViewCell else { return UITableViewCell() }
-        cell.configureOfCell(document: Model.shared.files[indexPath.row])
+        cell.configureOfCell(document: files[indexPath.row])
+
         return cell
     }
     
@@ -202,10 +199,9 @@ extension DocumentsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            removeFileFromLibrary(Model.shared.files[indexPath.row].filePath)
-            getLibraryData()
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.reloadData()
+            removeFileFromLibrary(files[indexPath.row].filePath)
+            self.files.remove(at: indexPath.row)
+            self.documentsTableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
@@ -229,17 +225,6 @@ extension DocumentsViewController: UIImagePickerControllerDelegate {
     }
 }
 
-extension UIViewController {
-    
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
 
 extension UIViewController {
     

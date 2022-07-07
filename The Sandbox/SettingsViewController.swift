@@ -21,20 +21,21 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.addSubview(settingsTableView)
-        
-        settingsTableView.register(SortingTableViewCell.self, forCellReuseIdentifier: SortingTableViewCell.identifire)
-//        settingsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "changePasswordCell")
+            
+        settingsTableView.register(
+            SortingTableViewCell.self,
+            forCellReuseIdentifier: SortingTableViewCell.identifire
+        )
         
         settingsTableView.dataSource = self
         settingsTableView.delegate = self
-        
         setupLayout()
-        
     }
     
     func setupLayout() {
+        
+        self.view.addSubview(settingsTableView)
+
         NSLayoutConstraint.activate([
             settingsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             settingsTableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -63,7 +64,6 @@ extension SettingsViewController: UITableViewDataSource {
             content.text = "Change user password"
             cell.contentConfiguration = content
             return cell
-            
         }
     }
 }
@@ -76,10 +76,8 @@ extension SettingsViewController: UITableViewDelegate {
             authVC.modalPresentationStyle = .fullScreen
             present(authVC, animated: true)
         }
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
     
 }
 

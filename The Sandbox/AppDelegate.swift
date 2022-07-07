@@ -21,6 +21,10 @@ var window: UIWindow?
         
         let settingsViewController = SettingsViewController()
         let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
+        
+        let authViewController = AuthViewController()
+        let authNavigationController = UINavigationController(rootViewController: authViewController)
+
 
         
         let tabBarController = UITabBarController()
@@ -54,7 +58,9 @@ var window: UIWindow?
         settingsNavigationController.navigationBar.scrollEdgeAppearance = settingsNavigationController.navigationBar.standardAppearance
 
         tabBarController.viewControllers = [documentsNavigationController, settingsNavigationController]
-                        
+        
+        tabBarController.present(authNavigationController, animated: false)
+
         window?.rootViewController = tabBarController
                 
         window?.makeKeyAndVisible()

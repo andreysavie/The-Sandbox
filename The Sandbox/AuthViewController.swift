@@ -8,7 +8,6 @@
 import UIKit
 import Locksmith
 
-
 class AuthViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: PROPERTIES ======================================================================
@@ -25,10 +24,6 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
-    
-    private var isFirstEntry = false
-    
     
     private lazy var authScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -92,54 +87,25 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
-        isPasswordExists = false
-        
+            
         passwordTextField.delegate = self
-        
-        setupLayout()
-        hideKeyboardWhenTappedAround()
-        
         isPasswordExists = passData != nil ? true : false
+        setupLayout()
         
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardShow),
-            name: UIResponder.keyboardWillShowNotification, object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardHide),
-            name: UIResponder.keyboardWillHideNotification, object: nil
-        )
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = true
     }
     
+//    override func viewWillDisappear(_ animated: Bool) {
+//        tabBarController?.tabBar.isHidden = false
+//    }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-        
-        self.navigationController?.navigationBar.isHidden = false
-        self.tabBarController?.tabBar.isHidden = false
+    deinit {
+        print("AUTH VC DEINITED") // УДАЛИТЬ
     }
-    
     
     // MARK: METHODS ======================================================================
     
@@ -164,6 +130,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         self.tabBarController?.tabBar.isHidden = true
         view.backgroundColor = .white
         view.addSubview(authScrollView)
+        
         authScrollView.addSubview(contentView)
         contentView.addSubview(logo)
         contentView.addSubview(enterButton)
@@ -226,6 +193,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             guard let pass = passData?["pass"] as? String else { return }
             if passwordTextField.text! == pass {
                 print ("успешный вход!")
+//                pushLoginViewController()
                 dismiss(animated: true)
             } else {
                 showAlert(title: "ERROR", message: "Password is wrong!")
@@ -244,6 +212,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
                         isPasswordExists = true
                         tempPass = ""
                         print ("успешная регистраиция и вход!!")
+//                        pushLoginViewController()
                         dismiss(animated: true)
 
                     } catch {
@@ -254,28 +223,21 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         }
-                
-        
+    }
+    
+    private func pushLoginViewController() {
+        let documentsViewController = DocumentsViewController()
+//        navigationController?.popViewController(animated: false)
+        navigationController?.pushViewController(documentsViewController, animated: true)
+        navigationController?.setViewControllers([documentsViewController], animated: true)
     }
     
     
-    @objc
-    private func switchLogin() {
-        isPasswordExists.toggle()
-    }
+//    @objc
+//    private func switchLogin() {
+//        isPasswordExists.toggle()
+//    }
     
-    @objc
-    private func keyboardShow(_ notification: Notification){
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            authScrollView.contentOffset.y = keyboardRectangle.height - (authScrollView.frame.height - enterButton.frame.maxY) + 16
-        }
-    }
-    
-    @objc
-    private func keyboardHide(_ notification: Notification){
-        authScrollView.contentOffset = CGPoint(x: 0, y: 0)
-    }
     
     @objc
     private func enterButtonEnabled() {
@@ -287,11 +249,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             enterButton.isEnabled = false
         }
     }
-    
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
+
 }
 
 

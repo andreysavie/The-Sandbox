@@ -17,8 +17,8 @@ class DocumentsTableViewCell: UITableViewCell {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.backgroundColor = .black
-        image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
+//        image.clipsToBounds = true
+        image.contentMode = .scaleToFill
         return image
     }()
     
@@ -74,7 +74,7 @@ class DocumentsTableViewCell: UITableViewCell {
             image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             image.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.25),
-            image.heightAnchor.constraint(equalTo: image.widthAnchor),
+            image.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.25),
                         
             fileName.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 8),
             fileName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),

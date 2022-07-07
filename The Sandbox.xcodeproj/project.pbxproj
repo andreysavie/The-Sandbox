@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A19753CA10FDA0DC302AB318 /* Pods_The_Sandbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC75BB4B831B0112E3A76A6A /* Pods_The_Sandbox.framework */; };
 		D57331BE2875EF7F0023A309 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57331BD2875EF7F0023A309 /* SettingsViewController.swift */; };
-		D58863B828761A310002BC72 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58863B728761A310002BC72 /* Model.swift */; };
 		D5A29BC72874AD2D006D1D76 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A29BC62874AD2D006D1D76 /* AuthViewController.swift */; };
 		D5D0B7E22870CB3A006A813C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D0B7E12870CB3A006A813C /* AppDelegate.swift */; };
 		D5D0B7E62870CB3A006A813C /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D0B7E52870CB3A006A813C /* DocumentsViewController.swift */; };
@@ -24,7 +23,6 @@
 		37BF5055B0D4E0007E0F5A12 /* Pods-The Sandbox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The Sandbox.release.xcconfig"; path = "Target Support Files/Pods-The Sandbox/Pods-The Sandbox.release.xcconfig"; sourceTree = "<group>"; };
 		A7B193484DA272B616DDF93D /* Pods-The Sandbox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The Sandbox.debug.xcconfig"; path = "Target Support Files/Pods-The Sandbox/Pods-The Sandbox.debug.xcconfig"; sourceTree = "<group>"; };
 		D57331BD2875EF7F0023A309 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		D58863B728761A310002BC72 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		D5A29BC62874AD2D006D1D76 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		D5D0B7DE2870CB3A006A813C /* The Sandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Sandbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5D0B7E12870CB3A006A813C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,12 +78,11 @@
 			isa = PBXGroup;
 			children = (
 				D5D0B7E12870CB3A006A813C /* AppDelegate.swift */,
-				D58863B728761A310002BC72 /* Model.swift */,
+				D5D0B7F92870E046006A813C /* Document.swift */,
 				D57331BD2875EF7F0023A309 /* SettingsViewController.swift */,
 				D5D0B7E52870CB3A006A813C /* DocumentsViewController.swift */,
 				D5F045E42876118400EB59FB /* Cells */,
 				D5A29BC62874AD2D006D1D76 /* AuthViewController.swift */,
-				D5D0B7F92870E046006A813C /* Document.swift */,
 				D5D0B7EA2870CB3E006A813C /* Assets.xcassets */,
 				D5D0B7EC2870CB3E006A813C /* LaunchScreen.storyboard */,
 				D5D0B7EF2870CB3E006A813C /* Info.plist */,
@@ -232,7 +229,6 @@
 				D5D0B7E22870CB3A006A813C /* AppDelegate.swift in Sources */,
 				D5D0B7FA2870E046006A813C /* Document.swift in Sources */,
 				D57331BE2875EF7F0023A309 /* SettingsViewController.swift in Sources */,
-				D58863B828761A310002BC72 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

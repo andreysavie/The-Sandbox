@@ -16,22 +16,9 @@ enum AuthState {
 
 final class Coordinator {
     
-//    let navigationcontroller: UINavigationController
-////    let authState: AuthState?
-//
-//    init(
-//        navigationController: UINavigationController
-////        state: AuthState
-//    ) {
-//        self.navigationcontroller = navigationController
-////        self.authState = state
-//    }
-
-    
     public func showDetail(state: AuthState, navCon: UINavigationController?) {
         
         let viewController: UIViewController
-        viewController.modalPresentationStyle = .fullScreen
         
         switch state {
         case .signUp:
@@ -41,6 +28,7 @@ final class Coordinator {
         case .editPass:
             viewController = AuthViewController(state: .editPass)
         }
+        viewController.modalPresentationStyle = .fullScreen
         navCon?.present(viewController, animated: true)
     }
 

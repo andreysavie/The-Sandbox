@@ -9,6 +9,7 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     
+    //MARK: PROPERTIES =====================================================================
     
     static let appearanceNavigationBar: UINavigationBarAppearance = {
         let appearance = UINavigationBarAppearance()
@@ -43,10 +44,11 @@ class MainTabBarController: UITabBarController {
     
     private lazy var appearanceTabBar: UITabBarAppearance = {
         let appearance = self.tabBar.standardAppearance
+        appearance.stackedLayoutAppearance.selected.iconColor = .brown
         return appearance
     }()
 
-
+    //MARK: INITS =====================================================================
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,12 +57,10 @@ class MainTabBarController: UITabBarController {
         tabBar.backgroundColor = .white
         tabBar.tintColor = .lightGray
         tabBar.standardAppearance = appearanceTabBar
-        
-        let appearanceTabBar = tabBar.standardAppearance
-        appearanceTabBar.stackedLayoutAppearance.selected.iconColor = .brown
-        tabBar.standardAppearance = appearanceTabBar
         viewControllers = [documentsNavigationController, settingsNavigationController]
         
+//        let appearanceTabBar = tabBar.standardAppearance
+//        tabBar.standardAppearance = appearanceTabBar
     }
     
 }

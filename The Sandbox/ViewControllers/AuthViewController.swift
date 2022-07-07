@@ -12,20 +12,11 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: PROPERTIES ======================================================================
     
-    private let passData = Locksmith.loadDataForUserAccount(userAccount: "user6")
+    private let passData = Locksmith.loadDataForUserAccount(userAccount: User.shared.user)
+    private let coordinator = Coordinator()
     
-        let authState: AuthState
-    
-    private var isPasswordExists = false {
-        willSet {
-            if newValue {
-                enterButton.setTitle("Sign in", for: .normal)
-                
-            } else {
-                enterButton.setTitle("Create password", for: .normal)
-            }
-        }
-    }
+    private var authState: AuthState
+    private var tempPass: String = ""
     
     private lazy var authScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -44,7 +35,6 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         return logo
     }()
     
-    
     private lazy var enterButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .brown
@@ -56,7 +46,6 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         button.addTarget(self, action: #selector(enterButtonPressed), for: .touchUpInside)
         return button
     }()
-    
     
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
@@ -98,38 +87,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
         passwordTextField.delegate = self
-        isPasswordExists = passData != nil ? true : false
         setupLayout()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-//        tabBarController?.tabBar.isHidden = true
-//        navigationController?.navigationBar.isHidden = true
-    }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        tabBarController?.tabBar.isHidden = false
-//    }
-    
-//    deinit {
-//        print("AUTH VC DEINITED") // УДАЛИТЬ
-//    }
-    
-    // MARK: METHODS ======================================================================
-    
-    
-    
-    private func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: .alert)
-        let acceptAction = UIAlertAction(title: "OK", style: .default) { _ in }
-        alertController.addAction(acceptAction)
-        self.present(alertController, animated: true)
     }
     
     
@@ -137,10 +96,9 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     
     private func setupLayout() {
         
-//        self.navigationController?.navigationBar.isHidden = true
-//        self.tabBarController?.tabBar.isHidden = true
         view.backgroundColor = .white
         view.addSubview(authScrollView)
+        enterButtonEnabled()
         
         authScrollView.addSubview(contentView)
         contentView.addSubview(logo)
@@ -189,27 +147,24 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    //MARK: SUBMETHODS
+    // MARK: METHODS ======================================================================
     
-    var tempPass: String = "" {
-        willSet {
-            print(newValue)
-        }
+    private func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert)
+        let acceptAction = UIAlertAction(title: "OK", style: .default) { _ in }
+        alertController.addAction(acceptAction)
+        self.present(alertController, animated: true)
     }
     
     @objc
     private func enterButtonPressed() {
         
-        if isPasswordExists {
-            guard let pass = passData?["pass"] as? String else { return }
-            if passwordTextField.text! == pass {
-                print ("успешный вход!")
-//                pushLoginViewController()
-                dismiss(animated: true)
-            } else {
-                showAlert(title: "ERROR", message: "Password is wrong!")
-            }
-        } else {
+        switch authState {
+            
+        case .signUp:
             if tempPass == "" {
                 tempPass = passwordTextField.text!
                 passwordTextField.text = ""
@@ -219,48 +174,67 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             } else {
                 if passwordTextField.text! == tempPass {
                     do {
-                        try Locksmith.saveData(data: ["pass": passwordTextField.text!], forUserAccount: "user6")
-                        isPasswordExists = true
+                        try Locksmith.saveData(data: ["pass": passwordTextField.text!], forUserAccount: User.shared.user)
                         tempPass = ""
-                        print ("успешная регистраиция и вход!!")
-//                        pushLoginViewController()
                         dismiss(animated: true)
-
+                        
                     } catch {
                         print ("Unable to save password!")
                     }
                 } else {
-                    showAlert(title: "ERROR", message: "Пароли не совпадают!")
+                    showAlert(title: "⚠️ Error ⚠️", message: "Passwords are different!")
+                }
+            }
+        case .signIn:
+            
+            guard let pass = passData?["pass"] as? String else { return }
+            if passwordTextField.text! == pass {
+                dismiss(animated: true)
+            } else {
+                showAlert(title: "⚠️ Error ⚠️", message: "Password is wrong!")
+            }
+            
+        case .editPass:
+            
+            if tempPass == "" {
+                tempPass = passwordTextField.text!
+                passwordTextField.text = ""
+                enterButtonEnabled()
+                passwordTextField.placeholder = "Confim password"
+                enterButton.setTitle("Confim password", for: .normal)
+            } else {
+                if passwordTextField.text! == tempPass {
+                    do {
+                        try Locksmith.updateData(data: ["pass": passwordTextField.text!], forUserAccount: User.shared.user)
+                        tempPass = ""
+                        dismiss(animated: true)
+                        
+                    } catch {
+                        print ("Unable to update password!")
+                    }
+                } else {
+                    showAlert(title: "⚠️ Error ⚠️", message: "Passwords are different!")
                 }
             }
         }
     }
-//
-//    private func pushLoginViewController() {
-//        let documentsViewController = DocumentsViewController()
-////        navigationController?.popViewController(animated: false)
-//        navigationController?.pushViewController(documentsViewController, animated: true)
-//        navigationController?.setViewControllers([documentsViewController], animated: true)
-//    }
-    
-    
-//    @objc
-//    private func switchLogin() {
-//        isPasswordExists.toggle()
-//    }
-    
     
     @objc
     private func enterButtonEnabled() {
-        if passwordTextField.text!.count >= 4 {
-            enterButton.alpha = 1.0
-            enterButton.isEnabled = true
-        } else {
-            enterButton.alpha = 0.5
-            enterButton.isEnabled = false
+        
+        switch authState {
+        case .signUp:
+            enterButton.setTitle("Create password", for: .normal)
+        case .signIn:
+            enterButton.setTitle("Sign in", for: .normal)
+        case .editPass:
+            enterButton.setTitle("Edit password", for: .normal)
         }
+        
+        enterButton.alpha = passwordTextField.text!.count >= 4 ? 1.0 : 0.5
+        enterButton.isEnabled = passwordTextField.text!.count >= 4 ? true : false
     }
-
+    
 }
 
 

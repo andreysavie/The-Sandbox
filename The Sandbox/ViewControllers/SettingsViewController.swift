@@ -9,7 +9,8 @@ import UIKit
 
 
 class SettingsViewController: UIViewController {
-    
+        
+    // MARK: PROPERTIES =========================================================================
     private lazy var settingsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,8 +18,8 @@ class SettingsViewController: UIViewController {
         return tableView
     }()
     
-    
-    
+    // MARK: INITS =========================================================================
+
     override func viewDidLoad() {
         super.viewDidLoad()
             
@@ -32,7 +33,9 @@ class SettingsViewController: UIViewController {
         setupLayout()
     }
     
-    func setupLayout() {
+    // MARK: METHODS =========================================================================
+
+    private func setupLayout() {
         
         self.view.addSubview(settingsTableView)
 
@@ -46,6 +49,8 @@ class SettingsViewController: UIViewController {
     }
     
 }
+
+// MARK: EXTENSIONS =========================================================================
 
 extension SettingsViewController: UITableViewDataSource {
     
@@ -72,12 +77,10 @@ extension SettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
-            let authVC = AuthViewController()
-            authVC.modalPresentationStyle = .fullScreen
-            present(authVC, animated: true)
+            let coordinator = Coordinator()
+            coordinator.showDetail(state: .editPass, navCon: self.navigationController)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
-

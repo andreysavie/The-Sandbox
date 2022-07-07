@@ -17,7 +17,6 @@ class DocumentsTableViewCell: UITableViewCell {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.backgroundColor = .black
-//        image.clipsToBounds = true
         image.contentMode = .scaleToFill
         return image
     }()
@@ -90,7 +89,8 @@ class DocumentsTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
     }
-    
+    // MARK: EXTENSIONS =================================================
+
 }
 
 extension Date {

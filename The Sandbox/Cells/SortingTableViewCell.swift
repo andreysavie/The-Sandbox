@@ -61,11 +61,11 @@ class SortingTableViewCell: UITableViewCell {
         ])
     }
     
+    // MARK: METHODS =====================================================
+
     @objc
     func saveSwitcherValue() {
-        print(switcher.isOn)
         UserDefaults.standard.setValue(switcher.isOn, forKey: "switcher")
-
     }
     
     override func prepareForReuse() {

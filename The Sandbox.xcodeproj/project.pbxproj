@@ -12,6 +12,7 @@
 		D57B523B28771EF200312F92 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B523A28771EF200312F92 /* MainTabBarController.swift */; };
 		D57B52412877272B00312F92 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B52402877272B00312F92 /* Coordinator.swift */; };
 		D57B5245287761DD00312F92 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B5244287761DD00312F92 /* User.swift */; };
+		D57B52482877664F00312F92 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D57B52472877664F00312F92 /* .gitignore */; };
 		D5A29BC72874AD2D006D1D76 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A29BC62874AD2D006D1D76 /* AuthViewController.swift */; };
 		D5D0B7E22870CB3A006A813C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D0B7E12870CB3A006A813C /* AppDelegate.swift */; };
 		D5D0B7E62870CB3A006A813C /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D0B7E52870CB3A006A813C /* DocumentsViewController.swift */; };
@@ -30,6 +31,7 @@
 		D57B52402877272B00312F92 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		D57B5244287761DD00312F92 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D57B5246287763DC00312F92 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D57B52472877664F00312F92 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D5A29BC62874AD2D006D1D76 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		D5D0B7DE2870CB3A006A813C /* The Sandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Sandbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5D0B7E12870CB3A006A813C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				D57B5246287763DC00312F92 /* README.md */,
+				D57B52472877664F00312F92 /* .gitignore */,
 				D5D0B7E02870CB3A006A813C /* The Sandbox */,
 				D5D0B7DF2870CB3A006A813C /* Products */,
 				DC7C15384A023DEF48FCF833 /* Pods */,
@@ -196,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5D0B7EE2870CB3E006A813C /* LaunchScreen.storyboard in Resources */,
+				D57B52482877664F00312F92 /* .gitignore in Resources */,
 				D5D0B7EB2870CB3E006A813C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

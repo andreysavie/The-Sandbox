@@ -7,12 +7,17 @@
 
 import UIKit
 
+
+
 class DocumentsViewController: UIViewController, UINavigationControllerDelegate {
-    
     
     // MARK: PROPERTIES =================================================
         
+    private var isLogin = false
+
     private var files = [Document]()
+    
+    private var authState: AuthState
     
     private lazy var documentsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -41,7 +46,18 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
     }()
   
     // MARK: INITS =====================================================
-
+    
+    init(state: AuthState) {
+        
+        self.authState = state
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,6 +78,11 @@ class DocumentsViewController: UIViewController, UINavigationControllerDelegate 
     
     override func viewWillAppear(_ animated: Bool) {
         getLibraryData()
+        guard !isLogin else { return }
+        let authVC = AuthViewController()
+        authVC.modalPresentationStyle = .fullScreen
+        present(authVC, animated: false)
+        isLogin = true
     }
     
     // MARK: METHODS =====================================================

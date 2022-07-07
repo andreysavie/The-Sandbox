@@ -16,59 +16,57 @@ var window: UIWindow?
 
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let documentsViewController = DocumentsViewController()
-        let documentsNavigationController = UINavigationController(rootViewController: documentsViewController)
-        
-        let settingsViewController = SettingsViewController()
-        let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
-        
-        let authViewController = AuthViewController()
-        let authNavigationController = UINavigationController(rootViewController: authViewController)
-
-
-        
-        let tabBarController = UITabBarController()
-        tabBarController.view.backgroundColor = .systemGray5
-        tabBarController.tabBar.backgroundColor = .white
-        tabBarController.tabBar.tintColor = .lightGray
-
-                
-        let appearanceNavigationBar = UINavigationBarAppearance()
-        appearanceNavigationBar.configureWithOpaqueBackground()
-        
-        let appearanceTabBar = tabBarController.tabBar.standardAppearance
-        appearanceTabBar.stackedLayoutAppearance.selected.iconColor = .brown
-        tabBarController.tabBar.standardAppearance = appearanceTabBar
+//        let documentsViewController = DocumentsViewController()
+//        let documentsNavigationController = UINavigationController(rootViewController: documentsViewController)
 //
-        documentsNavigationController.tabBarItem = UITabBarItem(
-            title: "Documents",
-            image: UIImage(systemName: "doc.on.doc"),
-            selectedImage: UIImage(systemName: "doc.on.doc.fill"))
+//        let settingsViewController = SettingsViewController()
+//        let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
+//
+//        let authViewController = AuthViewController()
+//        let authNavigationController = UINavigationController(rootViewController: authViewController)
 
-        documentsNavigationController.navigationBar.topItem?.title = "My documents"
-        documentsNavigationController.navigationBar.standardAppearance = appearanceNavigationBar
-        documentsNavigationController.navigationBar.scrollEdgeAppearance = documentsNavigationController.navigationBar.standardAppearance
+
         
-        settingsNavigationController.tabBarItem = UITabBarItem(
-            title: "Settings",
-            image: UIImage(systemName: "gearshape.2"),
-            selectedImage: UIImage(systemName:"gearshape.2.fill"))
-        settingsNavigationController.navigationBar.topItem?.title = "Settings"
-        settingsNavigationController.navigationBar.standardAppearance = appearanceNavigationBar
-        settingsNavigationController.navigationBar.scrollEdgeAppearance = settingsNavigationController.navigationBar.standardAppearance
+//        let tabBarController = UITabBarController()
+//        tabBarController.view.backgroundColor = .systemGray5
+//        tabBarController.tabBar.backgroundColor = .white
+//        tabBarController.tabBar.tintColor = .lightGray
 
-        tabBarController.viewControllers = [documentsNavigationController, settingsNavigationController]
-        
-        tabBarController.present(authNavigationController, animated: false)
-
-        window?.rootViewController = tabBarController
                 
+//        let appearanceNavigationBar = UINavigationBarAppearance()
+//        appearanceNavigationBar.configureWithOpaqueBackground()
+        
+//        let appearanceTabBar = tabBarController.tabBar.standardAppearance
+//        appearanceTabBar.stackedLayoutAppearance.selected.iconColor = .brown
+//        tabBarController.tabBar.standardAppearance = appearanceTabBar
+//
+//        documentsNavigationController.tabBarItem = UITabBarItem(
+//            title: "Documents",
+//            image: UIImage(systemName: "doc.on.doc"),
+//            selectedImage: UIImage(systemName: "doc.on.doc.fill"))
+//
+//        documentsNavigationController.navigationBar.topItem?.title = "My documents"
+//        documentsNavigationController.navigationBar.standardAppearance = appearanceNavigationBar
+//        documentsNavigationController.navigationBar.scrollEdgeAppearance = documentsNavigationController.navigationBar.standardAppearance
+//        
+//        settingsNavigationController.tabBarItem = UITabBarItem(
+//            title: "Settings",
+//            image: UIImage(systemName: "gearshape.2"),
+//            selectedImage: UIImage(systemName:"gearshape.2.fill"))
+//        settingsNavigationController.navigationBar.topItem?.title = "Settings"
+//        settingsNavigationController.navigationBar.standardAppearance = appearanceNavigationBar
+//        settingsNavigationController.navigationBar.scrollEdgeAppearance = settingsNavigationController.navigationBar.standardAppearance
+
+//        tabBarController.viewControllers = [documentsNavigationController, settingsNavigationController]
+        
+//        tabBarController.present(authNavigationController, animated: false)
+
+        let mainTabBarController = MainTabBarController()
+        window?.rootViewController = mainTabBarController
         window?.makeKeyAndVisible()
         
         return true
     }
-
-
 
 }
 

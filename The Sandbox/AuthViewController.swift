@@ -14,6 +14,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     
     private let passData = Locksmith.loadDataForUserAccount(userAccount: "user6")
     
+        let authState: AuthState
+    
     private var isPasswordExists = false {
         willSet {
             if newValue {
@@ -85,6 +87,15 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: INITS ======================================================================
     
+    init(state: AuthState) {
+        self.authState = state
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
             
@@ -95,17 +106,17 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.tabBar.isHidden = true
-        navigationController?.navigationBar.isHidden = true
+//        tabBarController?.tabBar.isHidden = true
+//        navigationController?.navigationBar.isHidden = true
     }
     
 //    override func viewWillDisappear(_ animated: Bool) {
 //        tabBarController?.tabBar.isHidden = false
 //    }
     
-    deinit {
-        print("AUTH VC DEINITED") // УДАЛИТЬ
-    }
+//    deinit {
+//        print("AUTH VC DEINITED") // УДАЛИТЬ
+//    }
     
     // MARK: METHODS ======================================================================
     
@@ -126,8 +137,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     
     private func setupLayout() {
         
-        self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = true
+//        self.navigationController?.navigationBar.isHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
         view.backgroundColor = .white
         view.addSubview(authScrollView)
         
@@ -224,13 +235,13 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
-    private func pushLoginViewController() {
-        let documentsViewController = DocumentsViewController()
-//        navigationController?.popViewController(animated: false)
-        navigationController?.pushViewController(documentsViewController, animated: true)
-        navigationController?.setViewControllers([documentsViewController], animated: true)
-    }
+//
+//    private func pushLoginViewController() {
+//        let documentsViewController = DocumentsViewController()
+////        navigationController?.popViewController(animated: false)
+//        navigationController?.pushViewController(documentsViewController, animated: true)
+//        navigationController?.setViewControllers([documentsViewController], animated: true)
+//    }
     
     
 //    @objc

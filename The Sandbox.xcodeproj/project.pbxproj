@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		A19753CA10FDA0DC302AB318 /* Pods_The_Sandbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC75BB4B831B0112E3A76A6A /* Pods_The_Sandbox.framework */; };
 		D57331BE2875EF7F0023A309 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57331BD2875EF7F0023A309 /* SettingsViewController.swift */; };
+		D57B523B28771EF200312F92 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B523A28771EF200312F92 /* MainTabBarController.swift */; };
+		D57B523D2877266000312F92 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B523C2877266000312F92 /* Factory.swift */; };
+		D57B52412877272B00312F92 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B52402877272B00312F92 /* Coordinator.swift */; };
 		D5A29BC72874AD2D006D1D76 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A29BC62874AD2D006D1D76 /* AuthViewController.swift */; };
 		D5D0B7E22870CB3A006A813C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D0B7E12870CB3A006A813C /* AppDelegate.swift */; };
 		D5D0B7E62870CB3A006A813C /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D0B7E52870CB3A006A813C /* DocumentsViewController.swift */; };
@@ -23,6 +26,9 @@
 		37BF5055B0D4E0007E0F5A12 /* Pods-The Sandbox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The Sandbox.release.xcconfig"; path = "Target Support Files/Pods-The Sandbox/Pods-The Sandbox.release.xcconfig"; sourceTree = "<group>"; };
 		A7B193484DA272B616DDF93D /* Pods-The Sandbox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The Sandbox.debug.xcconfig"; path = "Target Support Files/Pods-The Sandbox/Pods-The Sandbox.debug.xcconfig"; sourceTree = "<group>"; };
 		D57331BD2875EF7F0023A309 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D57B523A28771EF200312F92 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		D57B523C2877266000312F92 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		D57B52402877272B00312F92 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		D5A29BC62874AD2D006D1D76 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		D5D0B7DE2870CB3A006A813C /* The Sandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Sandbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5D0B7E12870CB3A006A813C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +84,9 @@
 			isa = PBXGroup;
 			children = (
 				D5D0B7E12870CB3A006A813C /* AppDelegate.swift */,
+				D57B523C2877266000312F92 /* Factory.swift */,
+				D57B52402877272B00312F92 /* Coordinator.swift */,
+				D57B523A28771EF200312F92 /* MainTabBarController.swift */,
 				D5D0B7F92870E046006A813C /* Document.swift */,
 				D57331BD2875EF7F0023A309 /* SettingsViewController.swift */,
 				D5D0B7E52870CB3A006A813C /* DocumentsViewController.swift */,
@@ -224,8 +233,11 @@
 			files = (
 				D5D0B7F62870DC6D006A813C /* DocumentsTableViewCell.swift in Sources */,
 				D5F045E6287611AB00EB59FB /* SortingTableViewCell.swift in Sources */,
+				D57B52412877272B00312F92 /* Coordinator.swift in Sources */,
+				D57B523B28771EF200312F92 /* MainTabBarController.swift in Sources */,
 				D5D0B7E62870CB3A006A813C /* DocumentsViewController.swift in Sources */,
 				D5A29BC72874AD2D006D1D76 /* AuthViewController.swift in Sources */,
+				D57B523D2877266000312F92 /* Factory.swift in Sources */,
 				D5D0B7E22870CB3A006A813C /* AppDelegate.swift in Sources */,
 				D5D0B7FA2870E046006A813C /* Document.swift in Sources */,
 				D57331BE2875EF7F0023A309 /* SettingsViewController.swift in Sources */,
